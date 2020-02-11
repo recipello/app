@@ -2,14 +2,16 @@ import React from 'react';
 import { useHistory, Link } from "react-router-dom";
 import RecipeCard from "./recipeCard";
 import './app.css';
+const baseUrl = process.env.NODE_ENV === "development" ? "http://localhost:3001" : "";
 
 function App(props) {
     const { token, user } = props;
     const [ recipes, setRecipes ] = React.useState([]);
     const history = useHistory();
-    
+
+
     function getRecipes () {
-        const url = "http://localhost:3001/api/recipes";
+        const url = `${baseUrl}/api/recipes`;
         const options = {
             method: "GET",
             headers: {
@@ -18,14 +20,19 @@ function App(props) {
         };
 
         const handleSuccess = ( res ) => {
+
             setRecipes( res.recipes )
+            // alert(JSON.stringify(res.recipes))
         }
 
-        const handleError = () => {
-
+        const handleError = (err) => {
+            // alert("1")
         }
 
-        fetch( url, options ).then( res => res.json() ).then( handleSuccess, handleError );
+        fetch( url, options ).then( res => {
+            // alert(res.status);
+            return res.json();
+        } ).then( handleSuccess, handleError ).catch(() => {});
     }
 
     React.useEffect( () => {
@@ -33,7 +40,7 @@ function App(props) {
     }, [] );
 
     const handleCreateNewRecipe = () => {
-        const url = "http://localhost:3001/api/recipes";
+        const url = "/api/recipes";
         const newRecipe = {
             name: "recipe title",
             description: "recipe description",
