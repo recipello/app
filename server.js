@@ -77,6 +77,13 @@ app.use( bodyParser.urlencoded( {
     extended: true,
 } ) );
 
+app.use( (req, res, next) => {
+    if (req.url.indexOf( "/r/" ) >= 0 ) {
+        return res.sendFile(path.join(__dirname, 'build', 'index.html'));
+    }
+    return next();
+})
+
 app.post( "/api/upload", auth, upload.single( "media" ), ( req, res ) => {
     const fileName = `resized-w600-${ req.file.filename }`;
     const imagePath = `images/uploads/${ fileName }`;
@@ -296,10 +303,6 @@ app.get( "/api/users", auth, ( req, res ) => {
         } )
     } );
 } );
-
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'))
-})
 
 /*
 get /api/users
