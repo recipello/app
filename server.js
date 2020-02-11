@@ -297,7 +297,9 @@ app.get( "/api/users", auth, ( req, res ) => {
     } );
 } );
 
-
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'))
+})
 
 /*
 get /api/users
