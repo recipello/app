@@ -1,38 +1,304 @@
-.App {
-  text-align: center;
+.lato {
+    font-family: 'Lato', sans-serif;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.open-sans {
+    font-family: 'Open Sans', sans-serif;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+* {
+    box-sizing: border-box;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+html,
+body,
+#root {
+    height: 100%;
 }
 
-.App-link {
-  color: #61dafb;
+body {
+    margin: 0;
+    font-family: 'Open Sans', sans-serif;
+    background: #F7F7F8;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.header {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 20px;
+    background: #333;
+    align-items: center;
+}
+
+.header a {
+    font-family: "Lato";
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+}
+
+.header a,
+.header button,
+.header span {
+    color: #fff;
+    padding: 10px;
+    font-size: 18px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.header button {
+    background: transparent;
+    margin: 0 0 0 20px;
+    border: none;
+    padding: 5px 10px;
+    font-size: 18px;
+}
+
+.header button:hover {
+    background: #fff;
+    color: #333;
+}
+
+.header .personal-space {
+    color: #fff;
+}
+
+
+.inner-lining {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    padding: 20px;
+}
+
+.card {
+    background: #fff;
+    width: 300px;
+    padding-bottom: 20px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    min-height: 180px;
+}
+
+.card a {
+    text-decoration: none;
+}
+
+.card.empty {
+    background: #EAEAED;
+    cursor: pointer;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card .card-empty-image {
+    background: #EAEAED;
+    height: 126px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.card .empty-card-image {
+    padding: 10px;
+    height: 160px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card .empty-card-image img {
+    width: 70px;
+}
+
+.card h2 {
+    margin: 0;
+    color: #353537;
+    padding: 0 10px;
+    margin: 10px 0;
+    font-size: 18px;
+}
+
+.card img {
+    max-width: 100%;
+}
+
+.card p {
+    margin: 0;
+    color: #353537;
+    padding: 0 10px;
+    margin: 10px 0 0;
+    font-size: 16px;
+    line-height: 150%;
+}
+
+.container-homepage {
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.container-recipe {
+    height: 100%;
+    display: flex;
+}
+
+.container-recipe aside,
+.container-recipe main {
+    height: 100%;
+}
+
+.container-recipe main {
+    flex-grow: 1;
+    position: relative;
+}
+
+.container-recipe aside {
+    height: 100%;
+    min-width: 400px;
+    position: relative;
+}
+
+.container-recipe aside .description-parsed ul {
+    font-size: 13px;
+    line-height: 16px;
+    padding: 0;
+    list-style-type: none;
+    margin: 0;
+}
+
+.container-recipe aside .description-parsed li {
+    margin-bottom: 5px;
+    position: relative;
+    padding-left: 12px;
+}
+
+.container-recipe aside .description-parsed li:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 6px;
+    width: 5px;
+    height: 5px;
+    background: #000;
+    border-radius: 50%;
+}
+
+.container-recipe aside .description-parsed li p {
+    margin: 0;
+}
+
+.container-recipe aside .tags {
+    padding: 0 10px;
+}
+
+.container-recipe aside .tags button {
+    color: #000;
+    text-decoration: none;
+    font-size: 14px;
+    background: none;
+    border: 0;
+    cursor: pointer;
+    padding: 0;
+    margin: 0 10px 0 0;
+}
+
+.container-recipe aside .tags button span {
+    color: #C18024
+}
+
+.container-recipe aside .inner-lining {
+    background: #D0D0D0;
+    overflow-x: auto;
+    padding: 10px;
+}
+
+.container-recipe main .inner-lining {
+    overflow-y: auto;
+}
+
+.container-recipe main .inner-lining .content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: stretch;
+}
+
+.description-parsed,
+.name-parsed {
+    cursor: pointer;
+    transition: background .2s;
+    padding: 10px 10px 1px;
+    border-radius: 4px;
+    margin: 0 0 10px;
+    display: block;
+}
+
+.description-parsed.no-hover:hover,
+.name-parsed.no-hover:hover {
+    cursor: auto;
+    background: none;
+}
+
+.name-parsed {
+    padding-bottom: 10px;
+}
+
+.description-parsed h2 {
+    margin: 0 0 10px;
+}
+
+.description-parsed:hover,
+.name-parsed:hover {
+    background: #E3E2E6;
+}
+
+.description-marked,
+.name-marked {
+    border: none;
+    background: #E3E2E6;
+    transition: background .2s;
+    padding: 10px;
+    border-radius: 4px;
+    margin: 0 0 10px;
+    font-family: 'Inconsolata', monospace;
+    resize: none;
+    font-size: 18px;
+    width: 100%;
+    display: none;
+}
+
+.name-marked {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.description-marked:focus {
+    outline: none;
+}
+
+.container-recipe aside.active .description-parsed,
+.container-recipe aside.name-active .name-parsed {
+    display: none;
+}
+
+.container-recipe aside.active .description-marked,
+.container-recipe aside.name-active .name-marked {
+    display: block;
+}
+
+.card-image-wrap .card-actions button.danger-bg-color {
+    background: #DA344D;
+}
+
+.card-image-wrap .card-actions button.danger-color {
+    color: #F4F0EE;
 }

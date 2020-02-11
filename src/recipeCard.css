@@ -1,0 +1,34 @@
+.card-recipe .name-parsed {
+    display: block;
+}
+
+.card-recipe .name-parsed:hover {
+    background: #fff;
+}
+
+.card-recipe .name-marked {
+    display: none;
+    font-size: 16px;
+    font-weight: normal;
+    background: #ffff;
+}
+
+.card-recipe .name-marked:focus {
+    outline: none;
+}
+
+.card-recipe.active .name-parsed {
+    display: none;
+}
+
+.card-recipe.active .name-marked {
+    display: block;
+}
+
+.card-recipe-link {
+    text-decoration: none;
+}
+
+.card-recipe-link:hover {
+    text-decoration: underline;
+}

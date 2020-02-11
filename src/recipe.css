@@ -1,0 +1,95 @@
+.card-empty-image {
+    position: relative;
+}
+
+.card {
+    position: relative;
+}
+
+.card-image-wrap {
+    position: relative;
+    min-height: 150px;
+}
+
+.card-image-wrap img {
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.card-image-wrap .card-actions {
+    position: absolute;
+    background: rgba( 255,255,255, .7 );
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    display: none;
+    z-index: 3;
+}
+
+.card-image-wrap:hover .card-actions {
+    display: flex;
+}
+
+.card-image-wrap .card-actions button,
+.card-image-wrap .card-actions a.btn {
+    background: none;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 5px;
+    background: #fff;
+    margin: 0 5px 0 0;
+    text-decoration: none;
+    color: #000;
+}
+
+.card-image-wrap .card-actions button.add-image {
+    position: relative;
+    cursor: pointer;
+}
+
+.card-image-wrap .card-actions button.add-image input {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 4;
+    top: 0;
+    left: 0;
+
+}
+
+.card-image-wrap .card-actions button:hover {
+    text-decoration: underline;
+}
+
+
+.card-step .description-parsed {
+    display: block;
+}
+
+.card-step .description-parsed:hover {
+    background: #FFF;
+}
+
+.card-step .description-marked {
+    display: none;
+    background: #FFF;
+    margin-bottom: 0;
+    color: #353537;
+    padding: 0 10px;
+    margin: 10px 0 0;
+    font-size: 16px;
+    line-height: 150%;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.card-step.active .description-parsed {
+    display: none;
+}
+
+.card-step.active .description-marked {
+    display: block;
+}

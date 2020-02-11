@@ -1,0 +1,83 @@
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: rgba(0,0,0, .5);
+    z-index: 6;
+}
+
+.form-header {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+}
+
+.form-header h1 {
+    margin: 0 0 40px;
+}
+
+.form-header button {
+    background: none;
+    border: none;
+    font-size: 35px;
+    padding: 5px;
+    position: absolute;
+    top: -15px;
+    right: 0;
+    cursor: pointer;
+}
+
+.form-header button:focus {
+    outline: none;
+}
+
+.form {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 400px;
+    height: 400px;
+    background: #FFF;
+    padding: 20px;
+    z-index: 7;
+    margin-left: -200px;
+    margin-top: -200px;
+}
+
+.form-group {
+    margin: 0 0 15px 0;
+}
+
+.form-group label {
+    display: block;
+    margin: 0 0 3px;
+}
+
+.form-group input {
+    border: 1px solid #ccc;
+    padding: 10px;
+    display: block;
+    width: 100%;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: center;
+}
+
+.form-actions .button {
+    border: none;
+    background: lightblue;
+    display: block;
+    padding: 10px;
+    font-size: 14px;
+    cursor: pointer;
+    margin: 0 10px;
+}
+
+.form-actions .button-outlined {
+    background: none;
+    border: 1px solid #ccc;
+}
