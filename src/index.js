@@ -7,6 +7,7 @@ import Recipe from './recipe';
 import RegisterForm from "./registerForm";
 import LoginForm from "./loginForm";
 import * as serviceWorker from './serviceWorker';
+const baseUrl = process.env.NODE_ENV === "development" ? "http://localhost:3001" : "";
 
 const Application = () => {
     const [ loginVisible, setLoginVisible ] = React.useState(false);
@@ -25,7 +26,7 @@ const Application = () => {
     React.useEffect( () => {
         const token = localStorage.getItem( "token" );
         if (token) {
-            const url = "http://localhost:3001/api/users";
+            const url = `${baseUrl}/api/users`;
             const options = {
                 method: "GET",
                 headers: {
@@ -86,8 +87,8 @@ const Application = () => {
                     )
                 }
             </div>
-            <Route path="/" component={ () => <App token={ token } user={ user } /> } exact/>
-            <Route path="/r/:id" component={ () => <Recipe token={ token } user={ user } /> } exact token={ token } user={ user }/>
+            <Route path="/" component={ () => <App token={ token } user={ user } baseUrl={baseUrl} /> } exact/>
+            <Route path="/r/:id" component={ () => <Recipe token={ token } user={ user } /> } baseUrl={baseUrl} exact token={ token } user={ user }/>
         </>
     )
 }

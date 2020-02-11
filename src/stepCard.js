@@ -1,4 +1,5 @@
 import React from "react";
+const baseUrl = process.env.NODE_ENV === "development" ? "http://localhost:3001" : "";
 
 function Step( props ) {
     const { step, index, setRecipe, id, recipe, token } = props;
@@ -15,7 +16,7 @@ function Step( props ) {
     }, [descriptionEditable, token] )
 
     const updateRecipeWithImage = (imagePath, stepIndex) => {
-        const url = `http://localhost:3001/api/recipes/${ id }`;
+        const url = `${baseUrl}/api/recipes/${ id }`;
 
         const options = {
             method: "PUT",
@@ -48,7 +49,7 @@ function Step( props ) {
 
     const handleImageUpload = (evt, index) => {
         const formData = new FormData();
-        const url = `http://localhost:3001/api/upload`;
+        const url = `${baseUrl}/api/upload`;
 
         formData.append( "media", evt.target.files[ 0 ] );
 
@@ -72,7 +73,7 @@ function Step( props ) {
     }
 
     const handleStepImageDelete = (stepIndex) => {
-        const url = `http://localhost:3001/api/recipes/${ id }`;
+        const url = `${baseUrl}/api/recipes/${ id }`;
 
         const options = {
             method: "PUT",
@@ -104,7 +105,7 @@ function Step( props ) {
     }
 
     const handleStepDelete = (stepIndex) => {
-        const url = `http://localhost:3001/api/recipes/${ id }`;
+        const url = `${baseUrl}/api/recipes/${ id }`;
 
         const options = {
             method: "PUT",
@@ -141,7 +142,7 @@ function Step( props ) {
         setDescriptionEditable( false );
         const value = evt.currentTarget.value;
         setRecipe(oldRecipe => {
-            const url = `http://localhost:3001/api/recipes/${ id }`;
+            const url = `${baseUrl}/api/recipes/${ id }`;
 
             const options = {
                 method: "PUT",

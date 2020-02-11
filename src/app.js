@@ -37,10 +37,10 @@ function App(props) {
 
     React.useEffect( () => {
         getRecipes();
-    }, [] );
+    }, [getRecipes] );
 
     const handleCreateNewRecipe = () => {
-        const url = "/api/recipes";
+        const url = `${baseUrl}/api/recipes`;
         const newRecipe = {
             name: "recipe title",
             description: "recipe description",

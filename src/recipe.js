@@ -6,6 +6,7 @@ import {
 import Step from "./stepCard";
 import './app.css';
 import "./recipe.css";
+const baseUrl = process.env.NODE_ENV === "development" ? "http://localhost:3001" : "";
 
 function Recipe(props) {
     const { token } = props;
@@ -20,7 +21,7 @@ function Recipe(props) {
     const nameRef = React.useRef( null );
 
     React.useEffect( () => {
-        const url = `http://localhost:3001/api/recipes/${ id }`;
+        const url = `${baseUrl}/api/recipes/${ id }`;
         const options = {
             method: "GET",
             headers: {
@@ -58,7 +59,7 @@ function Recipe(props) {
         setDescriptionEditable( false );
         const value = evt.currentTarget.value;
         setRecipe(oldRecipe => {
-            const url = `http://localhost:3001/api/recipes/${ id }`;
+            const url = `${baseUrl}/api/recipes/${ id }`;
 
             const options = {
                 method: "PUT",
@@ -69,16 +70,7 @@ function Recipe(props) {
                 body: JSON.stringify({...oldRecipe, description: value })
             };
 
-            const handleError = () => {
-
-            }
-
-            const handleSuccess = (res) => {
-                console.log("fute-m-as");
-                console.log(res);
-            }
-
-            fetch( url, options ).then( res => res.json() ).then( handleSuccess, handleError );
+            fetch( url, options ).then( res => res.json() )
 
             return {...oldRecipe, description: value }
         });
@@ -102,7 +94,7 @@ function Recipe(props) {
 
         const value = evt.currentTarget.value;
         setRecipe(oldRecipe => {
-            const url = `http://localhost:3001/api/recipes/${ id }`;
+            const url = `${baseUrl}/api/recipes/${ id }`;
 
             const options = {
                 method: "PUT",
@@ -132,7 +124,7 @@ function Recipe(props) {
     }
 
     const handleNewStepClick = () => {
-        const url = `http://localhost:3001/api/recipes/${ id }`;
+        const url = `${baseUrl}/api/recipes/${ id }`;
 
         const options = {
             method: "PUT",

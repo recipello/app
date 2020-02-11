@@ -1,12 +1,13 @@
 import React from "react";
 import "./authforms.css";
+const baseUrl = process.env.NODE_ENV === "development" ? "http://localhost:3001" : "";
 
 function LoginForm(props) {
     const { handleClose } = props;
     const [ email, setEmail ] = React.useState("");
     const [ password, setPassword ] = React.useState("");
     const getUser = () => {
-        const url = "http://localhost:3001/api/users";
+        const url = `${baseUrl}/api/users`;
         const options = {
             method: "GET",
             headers: {
@@ -29,7 +30,7 @@ function LoginForm(props) {
 
     const handleOnSubmit = (evt) => {
         evt.preventDefault();
-        const url = "http://localhost:3001/api/login";
+        const url = `${baseUrl}/api/login`;
         const newUser = {
             email,
             password,

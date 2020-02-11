@@ -1,5 +1,6 @@
 import React from "react";
 import "./authforms.css";
+const baseUrl = process.env.NODE_ENV === "development" ? "http://localhost:3001" : "";
 
 function RegisterForm() {
     const [ email, setEmail ] = React.useState("");
@@ -7,7 +8,7 @@ function RegisterForm() {
 
     const handleOnSubmit = (evt) => {
         evt.preventDefault();
-        const url = "http://localhost:3001/api/users";
+        const url = `${baseUrl}/api/users`;
         const newUser = {
             email,
             password,

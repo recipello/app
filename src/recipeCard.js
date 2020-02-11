@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 
 import "./recipeCard.css";
 
+const baseUrl = process.env.NODE_ENV === "development" ? "http://localhost:3001" : "";
+
 function RecipeCard (props) {
     const { recipeProps, index, getRecipes, token } = props;
 
@@ -26,7 +28,7 @@ function RecipeCard (props) {
     const recipeEditableClass = nameEditable ? "active" : "";
 
     const handleRecipeDelete = () => {
-        const url = `http://localhost:3001/api/recipes/${ recipe._id }`;
+        const url = `${baseUrl}/api/recipes/${ recipe._id }`;
 
         const options = {
             method: "DELETE",
@@ -48,7 +50,7 @@ function RecipeCard (props) {
     };
 
     const handleRecipeImageDelete = () => {
-        const url = `http://localhost:3001/api/recipes/${ recipe._id }`;
+        const url = `${baseUrl}/api/recipes/${ recipe._id }`;
 
         const options = {
             method: "PUT",
@@ -71,7 +73,7 @@ function RecipeCard (props) {
     }
 
     const updateRecipeWithImage = (imagePath) => {
-        const url = `http://localhost:3001/api/recipes/${ recipe._id }`;
+        const url = `${baseUrl}/api/recipes/${ recipe._id }`;
 
         const options = {
             method: "PUT",
@@ -95,7 +97,7 @@ function RecipeCard (props) {
 
     const handleImageUpload = (evt) => {
         const formData = new FormData();
-        const url = `http://localhost:3001/api/upload`;
+        const url = `${baseUrl}/api/upload`;
 
         formData.append( "media", evt.target.files[ 0 ] );
 
