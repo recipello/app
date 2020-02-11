@@ -9,7 +9,6 @@ function App(props) {
     const [ recipes, setRecipes ] = React.useState([]);
     const history = useHistory();
 
-
     function getRecipes () {
         const url = `${baseUrl}/api/recipes`;
         const options = {
@@ -36,8 +35,29 @@ function App(props) {
     }
 
     React.useEffect( () => {
-        getRecipes();
-    }, [getRecipes] );
+        const url = `${baseUrl}/api/recipes`;
+        const options = {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            }
+        };
+
+        const handleSuccess = ( res ) => {
+
+            setRecipes( res.recipes )
+            // alert(JSON.stringify(res.recipes))
+        }
+
+        const handleError = (err) => {
+            // alert("1")
+        }
+
+        fetch( url, options ).then( res => {
+            // alert(res.status);
+            return res.json();
+        } ).then( handleSuccess, handleError ).catch(() => {});
+    }, [] );
 
     const handleCreateNewRecipe = () => {
         const url = `${baseUrl}/api/recipes`;
