@@ -13,7 +13,7 @@ function Recipe(props) {
     const {id} = useParams();
     const [ recipe, setRecipe ] = React.useState( {steps: []} );
     const [ tags, setTags ] = React.useState( [] );
-    const [ toggle, setToggle ] = React.useState( true );
+    const [ toggle, setToggle ] = React.useState( false );
     const [textAreaHeight, setTextAreaHeight] = React.useState( "auto" );
     const [descriptionEditable, setDescriptionEditable] = React.useState( false );
     const [nameEditable, setNameEditable] = React.useState( false );
