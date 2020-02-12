@@ -2,18 +2,18 @@ import React from "react";
 const baseUrl = process.env.NODE_ENV === "development" ? "http://localhost:3001" : "";
 
 function Step( props ) {
-    const { step, index, setRecipe, id, recipe, token } = props;
+    const { step, index, setRecipe, id, recipe, token, authorisation } = props;
     const descriptionRef = React.useRef( null );
     const [textAreaHeight, setTextAreaHeight] = React.useState( "auto" );
     const [descriptionEditable, setDescriptionEditable] = React.useState( false );
 
     React.useEffect( () => {
-        if ( !token ) {
+        if ( !token || !authorisation ) {
             return;
         }
         setTextAreaHeight( descriptionRef.current.scrollHeight )
         descriptionRef.current.focus();
-    }, [descriptionEditable, token] )
+    }, [authorisation, descriptionEditable, token] )
 
     const updateRecipeWithImage = (imagePath, stepIndex) => {
         const url = `${baseUrl}/api/recipes/${ id }`;
@@ -180,7 +180,7 @@ function Step( props ) {
 
     return (
         <>
-            { token && (
+            { token && authorisation && (
                 <div className={`${descriptionEditableClass} card card-step`} key={ step.path }>
                     {
                         step.path && (
@@ -222,7 +222,7 @@ function Step( props ) {
                 </div>
             ) }
             {
-                !token && (
+                (!token || !authorisation) && (
                     <div className="card card-step" key={ step.path }>
                         {
                             step.path && (

@@ -19,9 +19,7 @@ function App(props) {
         };
 
         const handleSuccess = ( res ) => {
-
             setRecipes( res.recipes )
-            // alert(JSON.stringify(res.recipes))
         }
 
         const handleError = (err) => {
@@ -40,6 +38,7 @@ function App(props) {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
+                "x-access-token": token
             }
         };
 
@@ -57,7 +56,7 @@ function App(props) {
             // alert(res.status);
             return res.json();
         } ).then( handleSuccess, handleError ).catch(() => {});
-    }, [] );
+    }, [token] );
 
     const handleCreateNewRecipe = () => {
         const url = `${baseUrl}/api/recipes`;

@@ -25,6 +25,7 @@ const Application = () => {
 
     React.useEffect( () => {
         const token = localStorage.getItem( "token" );
+
         if (token) {
             const url = `${baseUrl}/api/users`;
             const options = {
@@ -36,7 +37,6 @@ const Application = () => {
             };
 
             const handleSuccess = (res) => {
-                console.log(res);
                 setUser( res.user );
                 setToken( token );
             }

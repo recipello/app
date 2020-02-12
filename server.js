@@ -170,8 +170,20 @@ app.delete( "/api/recipes/:id", auth, ( req, res ) => {
     } )
 } );
 
-app.get( "/api/recipes", ( req, res ) => {
-    db.recipes.find( {}, ( err, recipes ) => {
+app.get( "/api/recipes", ( req, res, next ) => {
+    const token = req.headers["x-access-token"] || req.headers["authorization"];
+    if (!token || token === "null") {
+        return res.send( {
+            message: "ok",
+            recipes: [],
+        } );
+    }
+
+    const user = jwt.verify(token, config.secret);
+
+    db.recipes.find( {
+        userId: user.userId
+    }, ( err, recipes ) => {
         if ( err ) {
             console.log( err );
             res.send( { message: "not ok" } );
@@ -186,6 +198,9 @@ app.get( "/api/recipes", ( req, res ) => {
 } );
 
 app.get( "/api/recipes/:id", ( req, res ) => {
+    const token = req.headers["x-access-token"] || req.headers["authorization"];
+    const user = (token && token !== "null" && token !== "undefined") ? jwt.verify(token, config.secret) : null;
+
     db.recipes.findOne( {
         _id: req.params.id,
     }, ( err, recipe ) => {
@@ -197,6 +212,7 @@ app.get( "/api/recipes/:id", ( req, res ) => {
 
         res.send( {
             message: "ok",
+            authorised: user && user.userId === recipe.userId,
             recipe,
         } );
     } );

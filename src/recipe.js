@@ -13,6 +13,7 @@ function Recipe(props) {
     const {id} = useParams();
     const [ recipe, setRecipe ] = React.useState( {steps: []} );
     const [ tags, setTags ] = React.useState( [] );
+    const [ authorisation, setAuthorisation ] = React.useState( null );
     const [ toggle, setToggle ] = React.useState( false );
     const [textAreaHeight, setTextAreaHeight] = React.useState( "auto" );
     const [descriptionEditable, setDescriptionEditable] = React.useState( false );
@@ -26,6 +27,7 @@ function Recipe(props) {
         const options = {
             method: "GET",
             headers: {
+                "x-access-token": token,
                 "Content-Type": "application/json",
             }
         };
@@ -35,26 +37,29 @@ function Recipe(props) {
         }
 
         const handleSuccess = (res) => {
-            setRecipe( res.recipe )
+            console.log(1);
+            console.log(res.authorisation);
+            setRecipe( res.recipe );
+            setAuthorisation( res.authorised );
         }
 
         fetch( url, options ).then( res => res.json() ).then( handleSuccess, handleError );
-    }, [id] );
+    }, [id, token] );
 
     React.useEffect( () => {
-        if ( !token) {
+        if ( !token || !authorisation) {
             return;
         }
         setTextAreaHeight( descriptionRef.current.scrollHeight )
         descriptionRef.current.focus();
-    }, [descriptionEditable, token] )
+    }, [authorisation, descriptionEditable, token] )
 
     React.useEffect( () => {
-        if ( !token) {
+        if ( !token || !authorisation) {
             return;
         }
         nameRef.current.focus();
-    }, [nameEditable, token] )
+    }, [authorisation, nameEditable, token] )
 
     const handleDescriptionBlur = (evt) => {
         setDescriptionEditable( false );
@@ -150,6 +155,9 @@ function Recipe(props) {
     const descriptionEditableClass = descriptionEditable ? "active" : "";
     const nameEditableClass = nameEditable ? "name-active" : "";
 
+    console.log(2);
+    console.log(authorisation);
+
   return (
       <div className="container-recipe">
           <aside className={ `${ descriptionEditableClass } ${ nameEditableClass } ${ toggle ? "toggle-active" : "toggle-inactive" }` }>
@@ -161,10 +169,10 @@ function Recipe(props) {
                     &times;
                 </button>
                 {
-                    !token && (<h1 className="name-parsed no-hover">{ recipe.name }</h1>)
+                    !token || !authorisation && (<h1 className="name-parsed no-hover">{ recipe.name }</h1>)
                 }
                 {
-                    token && (
+                    token && authorisation && (
                         <>
                             <h1 className="name-parsed" onClick={ handleNameClick }>{ recipe.name }</h1>
                             <textarea
@@ -179,7 +187,7 @@ function Recipe(props) {
                 }
 
                 {
-                    !token && (
+                    (!token || !authorisation) && (
                         <div
                             className="description-parsed no-hover"
                             dangerouslySetInnerHTML={ {__html: marked( recipe.description || "" )} }
@@ -188,7 +196,7 @@ function Recipe(props) {
                 }
 
                 {
-                    token && (
+                    token && authorisation && (
                         <>
                             <div
                                 className="description-parsed"
@@ -225,6 +233,7 @@ function Recipe(props) {
                           recipe.steps.map( (step, index) => (
                               <Step
                                 token={ token }
+                                authorisation={authorisation}
                                 key={ index }
                                   step={step}
                                   index={ index }
@@ -236,7 +245,7 @@ function Recipe(props) {
                       }
 
                       {
-                          token && (
+                          token && authorisation && (
                               <div className="card empty" onClick={ handleNewStepClick }>
                                 <p>Add step</p>
                               </div>
