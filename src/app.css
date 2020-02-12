@@ -65,6 +65,17 @@ body {
 }
 
 
+.header .auth-actions button {
+    font-size: 13px;
+}
+
+@media only screen and (min-width: 600px) {
+    .header .auth-actions button {
+        font-size: 18px;
+    }
+}
+
+
 .inner-lining {
     position: absolute;
     left: 0;
@@ -162,9 +173,52 @@ body {
 
 .container-recipe aside {
     height: 100%;
-    min-width: 400px;
-    position: relative;
+    width: 100%;
+    position: absolute;
+    z-index: 3;
+    left: -100%;
 }
+
+.container-recipe aside.toggle-active {
+    left: 0;
+}
+
+.container-recipe aside.toggle-inactive .inner-lining {
+    overflow: visible;
+}
+
+.container-recipe aside .show-ingredients {
+    position: absolute;
+    top: 20px;
+    right: -122px;
+    padding: 7px 5px;
+    background: lightblue;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.container-recipe aside .hide-ingredients {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+@media only screen and (min-width: 800px) {
+    .container-recipe aside .show-ingredients,
+    .container-recipe aside .hide-ingredients {
+        display: none;
+    }
+    .container-recipe aside {
+        height: 100%;
+        min-width: 400px;
+        width: auto;
+        position: relative;
+        left: 0;
+    }
+}
+
 
 .container-recipe aside .description-parsed ul {
     font-size: 13px;

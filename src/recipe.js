@@ -13,6 +13,7 @@ function Recipe(props) {
     const {id} = useParams();
     const [ recipe, setRecipe ] = React.useState( {steps: []} );
     const [ tags, setTags ] = React.useState( [] );
+    const [ toggle, setToggle ] = React.useState( true );
     const [textAreaHeight, setTextAreaHeight] = React.useState( "auto" );
     const [descriptionEditable, setDescriptionEditable] = React.useState( false );
     const [nameEditable, setNameEditable] = React.useState( false );
@@ -151,8 +152,14 @@ function Recipe(props) {
 
   return (
       <div className="container-recipe">
-          <aside className={ `${ descriptionEditableClass } ${ nameEditableClass }` }>
+          <aside className={ `${ descriptionEditableClass } ${ nameEditableClass } ${ toggle ? "toggle-active" : "toggle-inactive" }` }>
               <div className="inner-lining">
+                <button className="show-ingredients toggle-ingredients" onClick={ () => setToggle( true ) }>
+                    Show Ingredients
+                </button>
+                <button className="hide-ingredients toggle-ingredients" onClick={ () => setToggle( false ) }>
+                    &times;
+                </button>
                 {
                     !token && (<h1 className="name-parsed no-hover">{ recipe.name }</h1>)
                 }
