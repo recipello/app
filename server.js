@@ -263,10 +263,8 @@ app.post( "/api/users", ( req, res ) => {
 
 app.post( "/api/login", ( req, res ) => {
     usersSchema.validate( req.body ).then( ( validData ) => {
-        console.log(validData);
         db.users.findOne( { email: validData.email  }, (err, doc) => {
             if ( err ) {
-                console.log( err );
                 res.send( { message: "not ok" } );
                 return;
             }

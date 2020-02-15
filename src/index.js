@@ -6,6 +6,7 @@ import App from './app';
 import Recipe from './recipe';
 import RegisterForm from "./registerForm";
 import LoginForm from "./loginForm";
+import apiService from "./apiService";
 import * as serviceWorker from './serviceWorker';
 const baseUrl = process.env.NODE_ENV === "development" ? "http://localhost:3001" : "";
 
@@ -24,40 +25,19 @@ const Application = () => {
     }
 
     React.useEffect( () => {
-        const token = localStorage.getItem( "token" );
-
-        if (token) {
-            const url = `${baseUrl}/api/users`;
-            const options = {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    "x-access-token": token
-                },
-            };
-
-            const handleSuccess = (res) => {
-                setUser( res.user );
-                setToken( token );
-            }
-
-            const handleError = ( err ) => {
-                localStorage.removeItem( "token" );
-            }
-
-
-            fetch( url, options )
-                .then( res => {
-                    let json = res.json(); // there's always a body
-                    if (res.status >= 200 && res.status < 300) {
-                        return json;
-                    } else {
-                        return json.then(Promise.reject.bind(Promise));
-                    }
-                } )
-                .then( handleSuccess, handleError )
+        const handleSuccess = (res) => {
+            setUser( res.user );
+            setToken( localStorage.getItem( "token" ) );
         }
-    }, [] );
+
+        const handleError = ( err ) => {
+            localStorage.removeItem( "token" );
+        }
+
+        apiService( {
+            path: "/api/users"
+        } ).then( handleSuccess, handleError );
+    }, [token] );
 
     const logOut = () => {
         localStorage.removeItem( "token" );

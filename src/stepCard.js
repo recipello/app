@@ -1,5 +1,5 @@
 import React from "react";
-const baseUrl = process.env.NODE_ENV === "development" ? "http://localhost:3001" : "";
+import apiService from "./apiService";
 
 function Step( props ) {
     const { step, index, setRecipe, id, recipe, token, authorisation } = props;
@@ -16,15 +16,18 @@ function Step( props ) {
     }, [authorisation, descriptionEditable, token] )
 
     const updateRecipeWithImage = (imagePath, stepIndex) => {
-        const url = `${baseUrl}/api/recipes/${ id }`;
+        const handleError = () => {
 
-        const options = {
+        }
+
+        const handleSuccess = (res) => {
+            setRecipe( res.recipe );
+        }
+
+        apiService({
+            path: `/api/recipes/${ id }`,
             method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-                "x-access-token": token
-            },
-            body: JSON.stringify({...recipe, steps: recipe.steps.map( (step, index) => {
+            body: {...recipe, steps: recipe.steps.map( (step, index) => {
                 if ( index === stepIndex) {
                     return {
                         ...step,
@@ -33,23 +36,12 @@ function Step( props ) {
                 }
 
                 return step;
-            } ) })
-        };
-
-        const handleError = () => {
-
-        }
-
-        const handleSuccess = (res) => {
-            setRecipe( res.recipe );
-        }
-
-        fetch( url, options ).then( res => res.json() ).then( handleSuccess, handleError );
+            } ) }
+        }).then( handleSuccess, handleError );
     }
 
     const handleImageUpload = (evt, index) => {
         const formData = new FormData();
-        const url = `${baseUrl}/api/upload`;
 
         formData.append( "media", evt.target.files[ 0 ] );
 
@@ -58,30 +50,30 @@ function Step( props ) {
         }
 
         const handleSuccess = (res) => {
-            console.log(res);
-
             updateRecipeWithImage(res.image.path, index)
         }
 
-        fetch( url, {
+        apiService( {
+            path: "/api/upload",
             method: "POST",
-            headers: {
-                "x-access-token": token
-            },
             body: formData,
-        } ).then( res => res.json() ).then( handleSuccess, handleError );
+            type: "fileUpload"
+        } ).then( handleSuccess, handleError );
     }
 
     const handleStepImageDelete = (stepIndex) => {
-        const url = `${baseUrl}/api/recipes/${ id }`;
+        const handleError = () => {
 
-        const options = {
+        }
+
+        const handleSuccess = (res) => {
+            setRecipe( res.recipe );
+        }
+
+        apiService({
+            path: `/api/recipes/${ id }`,
             method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-                "x-access-token": token
-            },
-            body: JSON.stringify({...recipe, steps: recipe.steps.map( (step, index) => {
+            body: {...recipe, steps: recipe.steps.map( (step, index) => {
                 if ( index === stepIndex) {
                     return {
                         ...step,
@@ -90,9 +82,11 @@ function Step( props ) {
                 }
 
                 return step;
-            } ) })
-        };
+            } ) }
+        }).then( handleSuccess, handleError );
+    }
 
+    const handleStepDelete = (stepIndex) => {
         const handleError = () => {
 
         }
@@ -101,36 +95,17 @@ function Step( props ) {
             setRecipe( res.recipe );
         }
 
-        fetch( url, options ).then( res => res.json() ).then( handleSuccess, handleError );
-    }
-
-    const handleStepDelete = (stepIndex) => {
-        const url = `${baseUrl}/api/recipes/${ id }`;
-
-        const options = {
+        apiService({
+            path: `/api/recipes/${ id }`,
             method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-                "x-access-token": token
-            },
-            body: JSON.stringify({...recipe, steps: recipe.steps.filter( (step, index) => {
+            body: {...recipe, steps: recipe.steps.filter( (step, index) => {
                 if ( index === stepIndex) {
                     return false
                 }
 
                 return step;
-            } ) })
-        };
-
-        const handleError = () => {
-
-        }
-
-        const handleSuccess = (res) => {
-            setRecipe( res.recipe );
-        }
-
-        fetch( url, options ).then( res => res.json() ).then( handleSuccess, handleError );
+            } ) }
+        }).then( handleSuccess, handleError );
     }
 
     function handleTextareaChange(evt) {
@@ -141,27 +116,8 @@ function Step( props ) {
     const handleDescriptionBlur = (evt) => {
         setDescriptionEditable( false );
         const value = evt.currentTarget.value;
+
         setRecipe(oldRecipe => {
-            const url = `${baseUrl}/api/recipes/${ id }`;
-
-            const options = {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                    "x-access-token": token
-                },
-                body: JSON.stringify({...oldRecipe, steps: oldRecipe.steps.map( (stp, ind) => {
-                    if (ind === index) {
-                        return {
-                            ...stp,
-                            description: value
-                        }
-                    }
-
-                    return stp;
-                } ) })
-            };
-
             const handleError = () => {
 
             }
@@ -170,7 +126,21 @@ function Step( props ) {
                 setRecipe( res.recipe )
             }
 
-            fetch( url, options ).then( res => res.json() ).then( handleSuccess, handleError );
+            apiService({
+                path: `/api/recipes/${ id }`,
+                method: "PUT",
+                body: {...oldRecipe, steps: oldRecipe.steps.map( (stp, ind) => {
+                    if (ind === index) {
+                        return {
+                            ...stp,
+                            description: value
+                        }
+                    }
+
+                    return stp;
+                } ) }
+
+            }).then( handleSuccess, handleError );
 
             return {...oldRecipe, description: value }
         });

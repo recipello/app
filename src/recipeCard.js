@@ -1,9 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
+import apiService from "./apiService";
 import "./recipeCard.css";
-
-const baseUrl = process.env.NODE_ENV === "development" ? "http://localhost:3001" : "";
 
 function RecipeCard (props) {
     const { recipeProps, index, getRecipes, token } = props;
@@ -28,94 +26,70 @@ function RecipeCard (props) {
     const recipeEditableClass = nameEditable ? "active" : "";
 
     const handleRecipeDelete = () => {
-        const url = `${baseUrl}/api/recipes/${ recipe._id }`;
+        const handleSuccess = () => {
+            getRecipes();
+        }
 
-        const options = {
+        const handleError = (err) => {
+            console.log(err);
+        }
+
+        apiService({
+            path: `/api/recipes/${ recipe._id }`,
             method: "DELETE",
-            headers: {
-                "Content-Type": "application/json",
-                "x-access-token": token
-            },
-        };
-
-        const handleError = () => {
-
-        }
-
-        const handleSuccess = (res) => {
-            getRecipes()
-        }
-
-        fetch( url, options ).then( res => res.json() ).then( handleSuccess, handleError );
+        }).then( handleSuccess, handleError );
     };
 
     const handleRecipeImageDelete = () => {
-        const url = `${baseUrl}/api/recipes/${ recipe._id }`;
-
-        const options = {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-                "x-access-token": token
-            },
-            body: JSON.stringify({...recipe, coverPhoto: "" })
-        };
-
-        const handleError = () => {
-
-        }
-
         const handleSuccess = (res) => {
             setRecipe( res.recipe );
         }
 
-        fetch( url, options ).then( res => res.json() ).then( handleSuccess, handleError );
+        const handleError = (err) => {
+            console.log(err);
+        }
+
+        apiService({
+            method: "PUT",
+            path: `/api/recipes/${ recipe._id }`,
+            body: {...recipe, coverPhoto: "" }
+        }).then( handleSuccess, handleError );
     }
 
     const updateRecipeWithImage = (imagePath) => {
-        const url = `${baseUrl}/api/recipes/${ recipe._id }`;
-
-        const options = {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-                "x-access-token": token
-            },
-            body: JSON.stringify({...recipe, coverPhoto: imagePath })
-        };
-
-        const handleError = () => {
-
+        const handleError = (err) => {
+            console.log(err);
         }
 
         const handleSuccess = (res) => {
             setRecipe( res.recipe );
         }
 
-        fetch( url, options ).then( res => res.json() ).then( handleSuccess, handleError );
+        apiService({
+            path: `/api/recipes/${ recipe._id }`,
+            method: "PUT",
+            body: {...recipe, coverPhoto: imagePath }
+        }).then( handleSuccess, handleError );
     }
 
     const handleImageUpload = (evt) => {
         const formData = new FormData();
-        const url = `${baseUrl}/api/upload`;
-
         formData.append( "media", evt.target.files[ 0 ] );
-
-        const handleError = () => {
-
-        }
 
         const handleSuccess = (res) => {
             updateRecipeWithImage(res.image.path)
         }
 
-        fetch( url, {
+        const handleError = (err) => {
+            console.log(err);
+        }
+
+        apiService({
+            path: "/api/upload",
             method: "POST",
-            headers: {
-                "x-access-token": token
-            },
             body: formData,
-        } ).then( res => res.json() ).then( handleSuccess, handleError );
+            type: "fileUpload"
+        }).then( handleSuccess, handleError );
     }
 
     const handleTextareaChange = () => {

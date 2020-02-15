@@ -1,6 +1,6 @@
 import React from "react";
 import "./authforms.css";
-const baseUrl = process.env.NODE_ENV === "development" ? "http://localhost:3001" : "";
+import apiService from "./apiService";
 
 function RegisterForm() {
     const [ email, setEmail ] = React.useState("");
@@ -8,29 +8,25 @@ function RegisterForm() {
 
     const handleOnSubmit = (evt) => {
         evt.preventDefault();
-        const url = `${baseUrl}/api/users`;
+
         const newUser = {
             email,
             password,
         }
 
-        const options = {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify( newUser ),
-        };
-
         const handleSuccess = ( res ) => {
             console.log(res);
         }
 
-        const handleError = () => {
-
+        const handleError = (err) => {
+            console.log(err);
         }
 
-        fetch( url, options ).then( res => res.json() ).then( handleSuccess, handleError );
+        apiService({
+            path: `/api/users`,
+            method: "POST",
+            body: newUser,
+        }).then( handleSuccess, handleError );
     }
 
     return (

@@ -3,10 +3,10 @@ import marked from "marked";
 import {
   useParams
 } from 'react-router-dom'
+import apiService from "./apiService";
 import Step from "./stepCard";
 import './app.css';
 import "./recipe.css";
-const baseUrl = process.env.NODE_ENV === "development" ? "http://localhost:3001" : "";
 
 function Recipe(props) {
     const { token } = props;
@@ -23,27 +23,18 @@ function Recipe(props) {
     const nameRef = React.useRef( null );
 
     React.useEffect( () => {
-        const url = `${baseUrl}/api/recipes/${ id }`;
-        const options = {
-            method: "GET",
-            headers: {
-                "x-access-token": token,
-                "Content-Type": "application/json",
-            }
-        };
-
-        const handleError = () => {
-
+        const handleError = (err) => {
+            console.log(err);
         }
 
         const handleSuccess = (res) => {
-            console.log(1);
-            console.log(res.authorisation);
             setRecipe( res.recipe );
             setAuthorisation( res.authorised );
         }
 
-        fetch( url, options ).then( res => res.json() ).then( handleSuccess, handleError );
+        apiService({
+            path: `/api/recipes/${ id }`
+        }).then( handleSuccess, handleError );
     }, [id, token] );
 
     React.useEffect( () => {
@@ -64,21 +55,16 @@ function Recipe(props) {
     const handleDescriptionBlur = (evt) => {
         setDescriptionEditable( false );
         const value = evt.currentTarget.value;
+
         setRecipe(oldRecipe => {
-            const url = `${baseUrl}/api/recipes/${ id }`;
-
-            const options = {
+            const newRecipe = {...oldRecipe, description: value };
+            apiService( {
+                path: `/api/recipes/${ id }`,
                 method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                    "x-access-token": token
-                },
-                body: JSON.stringify({...oldRecipe, description: value })
-            };
+                body: newRecipe
+            } );
 
-            fetch( url, options ).then( res => res.json() )
-
-            return {...oldRecipe, description: value }
+            return newRecipe;
         });
     }
 
@@ -97,31 +83,24 @@ function Recipe(props) {
 
     const handleNameBlur = (evt) => {
         setNameEditable( false );
-
         const value = evt.currentTarget.value;
         setRecipe(oldRecipe => {
-            const url = `${baseUrl}/api/recipes/${ id }`;
-
-            const options = {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                    "x-access-token": token
-                },
-                body: JSON.stringify({...oldRecipe, name: value })
-            };
-
-            const handleError = () => {
-
+            const newRecipe = {...oldRecipe, name: value};
+            const handleError = (err) => {
+                console.log(err);
             }
 
             const handleSuccess = (res) => {
                 console.log(res);
             }
 
-            fetch( url, options ).then( res => res.json() ).then( handleSuccess, handleError );
+            apiService({
+                path: `/api/recipes/${ id }`,
+                method: "PUT",
+                body: newRecipe
+            }).then( handleSuccess, handleError );
 
-            return {...oldRecipe, name: value }
+            return newRecipe;
         });
     }
 
@@ -130,33 +109,23 @@ function Recipe(props) {
     }
 
     const handleNewStepClick = () => {
-        const url = `${baseUrl}/api/recipes/${ id }`;
-
-        const options = {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-                "x-access-token": token
-            },
-            body: JSON.stringify({...recipe, steps: [ ...recipe.steps, { path: "", description: "Placeholder description" } ] })
-        };
-
-        const handleError = () => {
-
+        const handleError = (err) => {
+            console.log(err);
         }
 
         const handleSuccess = (res) => {
             setRecipe( res.recipe );
         }
 
-        fetch( url, options ).then( res => res.json() ).then( handleSuccess, handleError );
+        apiService( {
+            path: `/api/recipes/${ id }`,
+            method: "PUT",
+            body: {...recipe, steps: [ ...recipe.steps, { path: "", description: "Placeholder description" } ] }
+        } ).then( handleSuccess, handleError );
     }
 
     const descriptionEditableClass = descriptionEditable ? "active" : "";
     const nameEditableClass = nameEditable ? "name-active" : "";
-
-    console.log(2);
-    console.log(authorisation);
 
   return (
       <div className="container-recipe">

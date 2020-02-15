@@ -1,21 +1,14 @@
 import React from "react";
 import "./authforms.css";
-const baseUrl = process.env.NODE_ENV === "development" ? "http://localhost:3001" : "";
+import apiService from "./apiService";
 
 function LoginForm(props) {
     const { handleClose } = props;
     const [ email, setEmail ] = React.useState("");
     const [ password, setPassword ] = React.useState("");
-    const getUser = () => {
-        const url = `${baseUrl}/api/users`;
-        const options = {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                "x-access-token": localStorage.getItem( "token" )
-            },
-        };
 
+    const getUser = () => {
+        console.log("here");
         const handleSuccess = (res) => {
             window.location.reload();
         }
@@ -24,25 +17,16 @@ function LoginForm(props) {
             console.log(err);
         }
 
-
-        fetch( url, options ).then( res => res.json() ).then( handleSuccess, handleError );
+        apiService( { path: "/api/users"} ).then( handleSuccess, handleError );
     }
 
     const handleOnSubmit = (evt) => {
         evt.preventDefault();
-        const url = `${baseUrl}/api/login`;
+
         const newUser = {
             email,
             password,
         }
-
-        const options = {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify( newUser ),
-        };
 
         const handleSuccess = ( res ) => {
             const { token } = res;
@@ -54,7 +38,11 @@ function LoginForm(props) {
 
         }
 
-        fetch( url, options ).then( res => res.json() ).then( handleSuccess, handleError );
+        apiService( {
+            path: "/api/login",
+            method: "POST",
+            body: newUser
+        } ).then( handleSuccess, handleError );
     }
 
     return (
