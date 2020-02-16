@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import apiService from "./apiService";
-import "./recipeCard.css";
+import apiService from "../helpers/apiService";
+import StyledCard from "./styledCard";
 
 function RecipeCard (props) {
     const { recipeProps, index, getRecipes, token } = props;
@@ -101,7 +101,7 @@ function RecipeCard (props) {
     };
 
     return (
-        <>
+        <StyledCard>
         {
             !token && (
                 <Link className="card-recipe-link" to={ `/r/${recipe._id}` }>
@@ -161,7 +161,7 @@ function RecipeCard (props) {
                 </div>
             )
         }
-        </>
+        </StyledCard>
     )
 }
 

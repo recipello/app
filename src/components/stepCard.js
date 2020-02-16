@@ -1,5 +1,6 @@
 import React from "react";
-import apiService from "./apiService";
+import apiService from "../helpers/apiService";
+import StyledCard from "./styledCard";
 
 function Step( props ) {
     const { step, index, setRecipe, id, recipe, token, authorisation } = props;
@@ -149,7 +150,7 @@ function Step( props ) {
     const descriptionEditableClass = descriptionEditable ? "active" : "";
 
     return (
-        <>
+        <StyledCard>
             { token && authorisation && (
                 <div className={`${descriptionEditableClass} card card-step`} key={ step.path }>
                     {
@@ -215,7 +216,7 @@ function Step( props ) {
                     </div>
                 )
             }
-        </>
+        </StyledCard>
     )
 }
 

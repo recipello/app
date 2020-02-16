@@ -1,6 +1,6 @@
 import React from "react";
 import "./authforms.css";
-import apiService from "./apiService";
+import apiService from "../../helpers/apiService";
 
 function RegisterForm() {
     const [ email, setEmail ] = React.useState("");

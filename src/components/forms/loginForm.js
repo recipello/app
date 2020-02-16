@@ -1,6 +1,6 @@
 import React from "react";
 import "./authforms.css";
-import apiService from "./apiService";
+import apiService from "../../helpers/apiService";
 
 function LoginForm(props) {
     const { handleClose } = props;
