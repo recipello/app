@@ -62,22 +62,26 @@ function App(props) {
   return (
       <>
         <div className="container-homepage">
-              {recipes.map( (recipe, index) => (
-                  <RecipeCard
-                    key={ index }
-                      recipeProps={ recipe }
-                      index={ index }
-                      getRecipes={ getRecipes }
-                      token={ token }
-                  />
-              ) )}
-            {
-                token && (
-                    <div className="card empty" onClick={ () => handleCreateNewRecipe() }>
-                      <p>Add Recipe</p>
-                    </div>
-                )
-            }
+            <div className="inner-lining">
+                {
+                    recipes.map( (recipe, index) => (
+                      <RecipeCard
+                        key={ index }
+                          recipeProps={ recipe }
+                          index={ index }
+                          getRecipes={ getRecipes }
+                          token={ token }
+                      />
+                    ) )
+                }
+                {
+                    token && (
+                        <div className="card empty" onClick={ () => handleCreateNewRecipe() }>
+                          <p>Add Recipe</p>
+                        </div>
+                    )
+                }
+            </div>
         </div>
       </>
   );

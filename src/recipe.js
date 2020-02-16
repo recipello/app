@@ -138,7 +138,7 @@ function Recipe(props) {
                     &times;
                 </button>
                 {
-                    !token || !authorisation && (<h1 className="name-parsed no-hover">{ recipe.name }</h1>)
+                    (!token || !authorisation) && (<h1 className="name-parsed no-hover">{ recipe.name }</h1>)
                 }
                 {
                     token && authorisation && (
