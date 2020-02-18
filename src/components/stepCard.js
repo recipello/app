@@ -4,7 +4,9 @@ import StyledCard from "./styledCard";
 
 function Step( props ) {
     const { step, index, setRecipe, id, recipe, token, authorisation } = props;
+
     const descriptionRef = React.useRef( null );
+
     const [textAreaHeight, setTextAreaHeight] = React.useState( "auto" );
     const [descriptionEditable, setDescriptionEditable] = React.useState( false );
 

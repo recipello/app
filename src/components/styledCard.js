@@ -129,30 +129,36 @@ const StyledCard = styled.div`
         text-decoration: underline;
     }
 
-    .card-recipe .name-parsed {
+    .card-recipe .name-parsed,
+    .card-step .description-parsed {
         display: block;
     }
 
-    .card-recipe .name-parsed:hover {
+    .card-recipe .name-parsed:hover,
+    .card-step .description-parsed:hover {
         background: #fff;
     }
 
-    .card-recipe .name-marked {
+    .card-recipe .name-marked,
+    .card-step .description-marked {
         display: none;
         font-size: 16px;
         font-weight: normal;
         background: #ffff;
     }
 
-    .card-recipe .name-marked:focus {
+    .card-recipe .name-marked:focus,
+    .card-step .description-marked:focus {
         outline: none;
     }
 
-    .card-recipe.active .name-parsed {
+    .card-recipe.active .name-parsed,
+    .card-step.active .description-parsed {
         display: none;
     }
 
-    .card-recipe.active .name-marked {
+    .card-recipe.active .name-marked,
+    .card-step.active .description-marked {
         display: block;
     }
 
